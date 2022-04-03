@@ -126,7 +126,7 @@ costshare_chase_purchases_excluded_tbl(){
 ##    likely to be shared while excluding ones that should never be considered.
 ##    Also, it performs this search on the Chase CSV formatted purchases and
 ##    this format's semantics before these purchases are conveted to a different
-##    format whose semantics are ignorant of the category concept.
+##    format whose semantics are devoid of the category concept.
 ##  Format
 ##    Must conform to:
 ##
