@@ -1,5 +1,5 @@
 # costshare_chase.program.sh
-Creates a program using [costshare.source.sh](//github.com/WhisperingChaos/costshare.source.sh) to implement cost sharing for Chase Bank credit card purchases.
+Creates a program using to implement cost sharing for Chase Bank credit card purchases.
 
 ## ToC
 [API Index](#api-index)  
@@ -22,21 +22,28 @@ Creates a program using [costshare.source.sh](//github.com/WhisperingChaos/costs
 
 ### API
 #### costshare_chase_category_filter_tbl
-https://github.com/WhisperingChaos/costshare.source.sh/blob/a50c24a0f5171d2cae5c8c78deb2b5482573e9f8/component/costshare.source.sh#L135-L171
+https://github.com/WhisperingChaos/costshare_chase.program.sh/blob/bbcb9a452473c204aff1a3722da4193da0e8a6a0/program/costshare.chase.program.sh#L114-L141
+
+This table must contain at least one category entry.  It exists in [program/costshare_chase_program_sh/override/](program/costshare_chase_program_sh/override/)
+[table contents](program/costshare_chase_program_sh/override/costshare_chase_category_filter_tbl)
 
 Before calling this function, at least the [costshare_vendor_pct_tbl](#costshare_vendor_pct_tbl) callback must be overriden. 
 [Table Contents](https://github.com/WhisperingChaos/costshare_chase.program.sh/blob/13a25c65b87de1e6b15206e483d9924a9d6f38f7/program/costshare_chase_program_sh/override/costshare_chase_category_filter_tbl.source.sh#L3-L9)
 
-#### costshare_purchase_exclude_filter_tbl
-https://github.com/WhisperingChaos/costshare.source.sh/blob/a50c24a0f5171d2cae5c8c78deb2b5482573e9f8/component/costshare.source.sh#L83-L109
+#### costshare_chase_purchases_exclude_specific_category_matches_tbl
+https://github.com/WhisperingChaos/costshare_chase.program.sh/blob/bbcb9a452473c204aff1a3722da4193da0e8a6a0/program/costshare.chase.program.sh#L145-L168
+
+
+#### costshare_chase_purchases_excluded_tbl
+https://github.com/WhisperingChaos/costshare_chase.program.sh/blob/bbcb9a452473c204aff1a3722da4193da0e8a6a0/program/costshare.chase.program.sh#L79-L110
 
 [How to override a callback function.](https://github.com/WhisperingChaos/SOLID_Bash#function-overriding)
 
 ##### Example
 https://github.com/WhisperingChaos/costshare.source.sh/blob/a50c24a0f5171d2cae5c8c78deb2b5482573e9f8/component/costshare.source.sh#L110-L126
 
-#### costshare_vendor_pct_tbl
-https://github.com/WhisperingChaos/costshare.source.sh/blob/a50c24a0f5171d2cae5c8c78deb2b5482573e9f8/component/costshare.source.sh#L28-L72
+#### costshare_chase_vendor_pct_tbl
+https://github.com/WhisperingChaos/costshare_chase.program.sh/blob/bbcb9a452473c204aff1a3722da4193da0e8a6a0/program/costshare.chase.program.sh#L26-L75
 
 [How to override a callback function.](https://github.com/WhisperingChaos/SOLID_Bash#function-overriding)
 
@@ -53,6 +60,8 @@ Copy **costshare.source.sh** into a directory then use the Bash [source](https:/
 TODO
 #### Developed Using 
 GNU bash, version 4.3.48(1)-release
+#### Depends on
+ [costshare.source.sh](//github.com/WhisperingChaos/costshare.source.sh)
 
 This component relies on [nameref/name reference feature](https://www.gnu.org/software/bash/manual/html_node/Shell-Parameters.html) introduced in version 4.3.
 ### Test
