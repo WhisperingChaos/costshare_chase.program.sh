@@ -72,7 +72,7 @@ costshare_chase__csv_transform(){
     vendorName=''
     transType=''
     amtVal=''
-    if ! csv_field_get "$purchase" fieldUnset transDate fieldIgnore vendorName category transType amtVal 2>\dev\null; then
+    if ! csv_field_get "$purchase" fieldUnset transDate fieldIgnore vendorName category transType amtVal 2>/dev/null; then
       msg_fatal "problem reading Chase CSV purchase='$purchase' purchaseCnt=$purchaseCnt"
     fi
 
