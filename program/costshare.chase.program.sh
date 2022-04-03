@@ -23,20 +23,152 @@
 ##
 ###############################################################################
 
+###############################################################################
+##
+##  This content is copied from:
+##  https://github.com/WhisperingChaos/costshare.source.sh/blob/main/component/costshare.source.sh
+##  for convienence.  It should always be the same.  Please replace the description
+##  below with the authorative one from URL above if the below differs.
+##  
+##  Purpose
+##    Defines the vendor percentage table used to filter and calculate the
+##    share amount of a purchase owed between two parties: Party 'X' and
+##    Party 'Y'.
+##    
+##    Filtering selects only those purchases whose Vendor Names appear in
+##    this table.  A "grep" "fixed string" comparision is performed between
+##    each Vendor Name in this table and the one appearing in a purchase.  If
+##    the fixed string comparison succeeds the purchase is selected for 
+##    further processing.  Note, fixed string evaluation compares all characters
+##    according to their character values, therefore, a character's case
+##    affects the comparison outcome and regular expressions are unsupported.
+##  Why
+##    Automates the process of filtering the purchases and calculating
+##    what each party owes.
+##  Format
+##    Must conform to CSV format:
+##
+##     <Vendor Name>,<Party 'X' Percentage>
+##
+##     Must use double quotes to encapsulate Vendor Name when it contains
+##     the CSV delimiter characters: double quotes or commas.
+##     Whitespace can be used to visually align the column values.  Whitespace
+##     will be eliminated from each side of a field value.  Also, repeated,
+##     embedded whitespace will be replaced by a single "space" character.
+##  Constraints
+##    Vendor Name
+##    - Must be capitalized in the same manner as specified by purchases.
+##    - A partial vendor name can be specified.  However, it must be long
+##      enough to uniquely assign the proper percentage that should be paid
+##      by Party 'X'.  The algorithm selects the percentage 
+##      associated to the longest matching vendor name before considering
+##      shorter ones that share the same first whole word (root word).
+##    - A root word must be at least 3 characters long.
+##    - A vendor name will be truncated to 'costshare_VENDOR_NAME_LENGTH_MAX'
+##      to prevent exploitation/bugs.
+##    Party 'X' Percentage
+##    - The percentage of the total charge to be paid by Party 'X'.
+##    - The share paid by Party 'Y' is the amount that remains after deducting
+##      the amount owed by Party 'X'.
+##    - Must be a whole number that ranges: 0-100.
+##
+###############################################################################
 costshare_chase_vendor_pct_tbl(){
   msg_fatal  "must override this table definition"
 }
-
-
+###############################################################################
+##
+##  This content is copied from:
+##  https://github.com/WhisperingChaos/costshare.source.sh/blob/main/component/costshare.source.sh
+##  for convienence.  It should always be the same.  Please replace the description
+##  below with the authorative one from URL above if the below differs.
+##
+##  Purpose
+##    Excludes purchases normally included by "costshare_vendor_pct_tbl".
+##    Each CSV formatted row can define a regex pattern for each input field.
+##  Why
+##    There may be purchases involving a vendor that are typically shared
+##    but in certain cases aren't.
+##  Format
+##    Must conform to CSV format:
+##
+##     [<Vendor Name>][,<Date>|,][,<Charge>] 
+##
+##    Vendor Name - (optional) extended regex.
+##    Date        - (optional) extended regex.
+##    Charge      - (optional) extended regex.
+##
+##    At least one of the above fields must be specified.
+##    When combined, the regex of these fields identify the purchase(s)
+##    to specifically exclude.
+##
+##    Omit a field from matching by either leaving it entirely empty or by 
+##    specifing an empty value using a pair of double quotes ("").  If an
+##    empty value is specified, a comma must terminate the field if a value
+##    is specified for a subsequent field.
+##
+###############################################################################
 costshare_chase_purchases_excluded_tbl(){
   msg_fatal  "must override this table definition"
 }
-
-
+###############################################################################
+##
+##  Purpose
+##    Defines a table whose rows select purchases based onn Chase Bank
+##    Category descriptions which suggest they should be
+##    included in cost sharing.  However, there will be purchases
+##    assigned a cost sharing category that should instead be excluded.  
+##    The matching semantics of a grep --fix-string match is 
+##    performed using the contents of this table on the Chase Bank
+##    credit card CSV input stream.
+## Why
+##    Helps to eliminate calculation errors by including only those purchases
+##    likely to be shared while excluding ones that should never be considered.
+##    Also, it performs this search on the Chase CSV formatted purchases and
+##    this format's semantics before these purchases are conveted to a different
+##    format whose semantics are ignorant of the category concept.
+##  Format
+##    Must conform to:
+##
+##     ,<Category>, 
+##
+##    Category - (required) any Chase Bank descriptive category extracted from
+##               their CSV stream fed into this program.  The leading and trailing
+##               commas better ensure match semantics will only consider the 
+##               contents of the category field in the CSV stream, as hopefully,
+##               a category description/name doesn't match the full name of a 
+##               purchase vendor/description field.
+###############################################################################
 costshare_chase_category_filter_tbl(){
   msg_fatal  "must override this table definition"
 }
-
+###############################################################################
+##
+##  Purpose
+##    Define a table to exclude specific purchases that are incorrectly included
+##    in cost sharing when applying the Chase Bank category table rows.  
+##    The matching semantics of a grep --fix-string match are performed using 
+##    the contents of this table on the Chase Bank credit card CSV input stream.
+## Why
+##    Helps to eliminate cost sharing errors by excluding only those purchases
+##    that should never be considered.
+##    Also, it performs this search on the Chase CSV formatted purchases and
+##    their semantics before these purchases are conveted to a different
+##    format whose semantics are devoid of the category concept.
+##  Format
+## 
+##     <Transaction Date>,<Post Date>,<Description>,<Category>,<Type>,<Amount>,<Memo>
+##
+##    A row in the table must contain the minimal portion of a Chase Bank CSV
+##    purchase entry that matches the purchase(s) that must be excluded
+##    without affecting any purchase that must be included. The easiest method
+##    is to add a row in the table that exactly matches the corresponding entry
+##    in the Chase Bank input stream.  This ensures that this row will only
+##    affect that specific entry in the input stream.  
+###############################################################################
+costshare_chase_purchases_exclude_specific_category_matches_tbl(){
+  msg_fatal  "must override this table definition"
+}
 ############################ private implementation ###########################
 #
 #   The code below shouldn't change unless there's a bug.
@@ -48,9 +180,9 @@ costshare_chase__executable_compose(){
 
   local -r callSourcer="$callFromDir"'/config_sh/vendor/sourcer/sourcer.sh'
   local -r myRoot="$callFromDir"'/costshare_chase_program_sh'
-  local mod
-  for mod in $( "$callSourcer" "$myRoot"); do
-    source "$mod"
+  local component
+  for component in $( "$callSourcer" "$myRoot"); do
+    source "$component"
   done
 }
 ###############################################################################
@@ -64,6 +196,9 @@ costshare_chase__executable_compose(){
 ##  In
 ##    STDIN  - Chase Bank Credit Card CSV whose format matches that 
 ##             produced on 02/28/2022.
+##
+##     <Transaction Date>,<Post Date>,<Description>,<Category>,<Type>,<Amount>,<Memo>
+##
 ##  Out
 ##    STDOUT - newline delimited CSV records with format:
 ##
