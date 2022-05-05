@@ -176,10 +176,11 @@ costshare_chase_purchases_exclude_specific_category_matches_tbl(){
 ###############################################################################
 
 costshare_chase__executable_compose(){
-  local -r callFromDir="$( dirname "$1" )"
+  local -r absComposeExec="$(readlink -f "$0")"
+  local -r absComposeDir="$( dirname "$absComposeExec" )"
 
-  local -r callSourcer="$callFromDir"'/config_sh/vendor/sourcer/sourcer.sh'
-  local -r myRoot="$callFromDir"'/costshare_chase_program_sh'
+  local -r callSourcer="$absComposeDir"'/config_sh/vendor/sourcer/sourcer.sh'
+  local -r myRoot="$absComposeDir"'/costshare_chase_program_sh'
   local component
   for component in $( "$callSourcer" "$myRoot"); do
     source "$component"

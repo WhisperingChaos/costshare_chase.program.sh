@@ -151,5 +151,3 @@ costshare_chase__detect_error(){
 costshare_chase__error_report(){
   msg_fatal "at least one error or unaccounted for purchase was detected. view output of STDERR"
 }
-
-
