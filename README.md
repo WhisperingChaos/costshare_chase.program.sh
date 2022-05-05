@@ -58,12 +58,10 @@ Copy **costshare.source.sh** into a directory then use the Bash [source](https:/
   *  [```wget https://github.com/whisperingchaos/costshare.source.sh/tarball/master```](https://github.com/whisperingchaos/costshare.source.sh/tarball/master) creates a tarball that includes only the project files without the git repository.  Obtains current master branch which may include untested features.
 #### SOLID Composition
 TODO
-#### Developed Using 
-GNU bash, version 4.3.48(1)-release
-#### Depends on
- [costshare.source.sh](//github.com/WhisperingChaos/costshare.source.sh)
+#### Depends on 
+  - GNU bash, version 4.3.48(1)-release. This component relies on [nameref/name reference feature](https://www.gnu.org/software/bash/manual/html_node/Shell-Parameters.html) introduced in version 4.3.
+  - The Bash components listed in its [vendor.config](program/config_sh/vendor/vendor.config)
 
-This component relies on [nameref/name reference feature](https://www.gnu.org/software/bash/manual/html_node/Shell-Parameters.html) introduced in version 4.3.
 ### Test
 After [installing](#install), change directory to **costshare.source.sh**'s ```test```. Then run:
   * ```./config.sh``` followed by
