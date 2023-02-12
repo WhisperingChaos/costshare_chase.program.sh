@@ -1,7 +1,7 @@
 ![example event parameter](https://github.com/WhisperingChaos/costshare_chase.program.sh/actions/workflows/main.yml/badge.svg?event=push)
 
 # costshare_chase.program.sh
-Creates a program using to implement cost sharing for Chase Bank credit card purchases.
+A program that implements cost sharing for Chase Bank credit card purchases.
 
 ## ToC
 [API Index](#api-index)  
@@ -60,7 +60,7 @@ https://github.com/WhisperingChaos/costshare.source.sh/blob/a50c24a0f5171d2cae5c
   > cd program
   > ./config.sh
   ```
-  Once the above successfully finishes, all the program's static dependencies have been downloaded and installed to the proper subdirectories in "costshare_chase_program_sh".
+  Once the above successfully finishes, all the program's static dependencies have been downloaded and installed to the proper subdirectories in "program/costshare_chase_program_sh".
 #### SOLID Composition
 TODO
 #### Depends on 
@@ -72,6 +72,6 @@ After [installing](#install), change directory to **costshare_chase.program.sh**
   * ```>./config.sh``` followed by
   * [**./test_costshare_chase.program.sh**](test/test_costshare_chase.program.sh).  It should complete successfully and not produce any messages.
 ```
->~/Desktop/projects/test_costshare_chase.program.sh/test$ ./costshare.source_test.sh
->~/Desktop/projects/test_costshare_chase.program.sh/test$ 
+> ~/Desktop/projects/test_costshare_chase.program.sh/test$ ./costshare.source_test.sh
+> ~/Desktop/projects/test_costshare_chase.program.sh/test$ 
 ```
