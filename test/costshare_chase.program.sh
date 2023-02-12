@@ -1,1 +1,1 @@
-../../program/costshare_chase.program.sh
+../program/costshare_chase.program.sh
