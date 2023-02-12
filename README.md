@@ -1,4 +1,4 @@
-![example event parameter](https://github.com/github/docs/actions/workflows/main.yml/badge.svg?event=push)
+![example event parameter](https://github.com/WhisperingChaos/costshare_chase.program.sh/actions/workflows/main.yml/badge.svg?event=push)
 
 # costshare_chase.program.sh
 Creates a program using to implement cost sharing for Chase Bank credit card purchases.
