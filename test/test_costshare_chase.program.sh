@@ -78,8 +78,8 @@ OKI_POKIE_BJS
 }
 
 test_costshare_chase_program_Chase(){
-  assert_output_true test_costshare_chase_program_Chase_expected march \
-    ---              test_costshare_chase_program_Chase_generate march
+  assert_output_true test_costshare_chase_program_Chase_expected $1 \
+    ---              test_costshare_chase_program_Chase_generate $1
 }
 test_costshare_chase_program_Chase_generate(){
   cat ./data/$1/Statement.csv \
@@ -98,7 +98,7 @@ test_costshare_chase_program__main(){
   test_costshare_chase_program__OKI_POKIE
   test_costshare_chase_program__OKI_POKIE_fail_BJS
   test_costshare_chase_program_Chase march
-
+  test_costshare_chase_program_Chase may
   assert_return_code_set
 }
 
